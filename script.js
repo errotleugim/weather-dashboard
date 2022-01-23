@@ -9,6 +9,12 @@ var hum = document.querySelector('.hum');
 var fivedays = document.querySelector('.fivedays');
 var API_KEY = '2db2aad8f9cf5856066bd821773ec276'
 data = '';
+lastsearch();
+
+function lastsearch () {
+  let cityone = document.getElementById("city1")
+  cityone.innerHTML = localStorage.getItem('City1')
+}
 
 function getlatlon () {
   fetch('http://api.openweathermap.org/geo/1.0/direct?q='+inpuut.value+'&limit=5&appid='+API_KEY)
@@ -25,19 +31,18 @@ function getlatlon () {
   })
 }
 function today () {
-  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&appid='+API_KEY)
+  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&units=metric&appid='+API_KEY)
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     var uvivalue = data['current']['uvi']
     var windvalue = data['current']['wind_speed']
     var tempvalue = data['current']['temp']
     var humvalue = data['current']['humidity']
-    wind.innerHTML = "Wind speed: " + windvalue;
-    temp.innerHTML = "Temperature: " + tempvalue;
+    wind.innerHTML = "Wind speed: " + windvalue + " KM/H";
+    temp.innerHTML = "Temperature: " + tempvalue + " C°";
     uvi.innerHTML = "UV Index: "+uvivalue;
-    hum.innerHTML = "Humidity: "+humvalue;
-    inpuut.value ="";
+    hum.innerHTML = "Humidity: "+humvalue + "%";
+   
   })
 }
 function fivedaysweather () {
@@ -46,13 +51,33 @@ function fivedaysweather () {
   .then(data => {
     console.log(data);
      
-})}
+})
+}
 button.addEventListener('click', function(){
   getlatlon(); 
   today ();
+  uvcolor();
   fivedaysweather();
 })
 
+function uvcolor () {
+  if (uvi.innerHTML <= 2 ) {
+    let element = document.getElementById("uvindex");
+    element.classList.add("low");
+  }
+  else if (uvi.innerHTML <= 5) {
+    let element = document.getElementById("uvindex");
+    element.classList.add("medium");
+  }
+  else if (uvi.innerHTML <= 7) {
+    let element = document.getElementById("uvindex");
+    element.classList.add("high");
+  }
+  else if (uvi.innerHTML <= 10) {
+    let element = document.getElementById("uvindex");
+    element.classList.add("veryhigh");
+  } 
+}
 
   // .then(data => {
   //   var uvivalue = data['current']['uvi']

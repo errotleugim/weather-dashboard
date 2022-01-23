@@ -11,7 +11,7 @@ fetch('https://api.openweathermap.org/data/2.5/weather?q='+input.value+'&appid=2
 .then(response => response.json())
 .then(data => {
   var tempValue = data['main']['temp'];
-  var nameValue = data['name'];
+  var nameValue = data['name'] +" " + Date();
   var descValue = data['weather'][0]['description'];
 
   main.innerHTML = nameValue;

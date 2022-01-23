@@ -13,25 +13,28 @@ button.addEventListener('click', function(){
     var longitude = data[0]['lon'];
     console.log(latitude);
     console.log(longitude);
+    localStorage.setItem('lat', latitude);
+    localStorage.setItem('lon', longitude);
   })
-})
-button.addEventListener('click', function(){
-fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+latitude+'&lon='+longitude+'&exclude={part}&appid=2db2aad8f9cf5856066bd821773ec276')
-.then(response => response.json())
-.then(data => {
-  var tempValue = data['main']['temp'];
-  var nameValue = data['name'] +" " + Date();
-  var descValue = data['weather'][0]['description'];
+  .then (fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&appid=2db2aad8f9cf5856066bd821773ec276')
+  .then(response => response.json())
+  .then(data => {
+    // var tempValue = data['main']['temp'];
+    // var nameValue = data['name'] +" " + Date();
+    // var descValue = data['weather'][0]['description'];
+  
+    // main.innerHTML = nameValue;
+    // desc.innerHTML = "Desc - "+descValue;
+    // temp.innerHTML = "Temp - "+tempValue;
+    // input.value ="";
+  console.log(data);
+  })
+  
+  .catch(err => alert("Wrong city name!")))
+  })
 
-  main.innerHTML = nameValue;
-  desc.innerHTML = "Desc - "+descValue;
-  temp.innerHTML = "Temp - "+tempValue;
-  input.value ="";
 
-})
 
-.catch(err => alert("Wrong city name!"));
-})
 
 console.log("fuck");
 console.log(Date());

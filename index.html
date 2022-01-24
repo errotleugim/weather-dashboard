@@ -16,7 +16,7 @@
 
     <main class="container-fluid">
         <div class="row">
-          <section class="col-3 col-md-4 col-lg-3">
+          <section class="col-4">
             <div class="card custom-card">
               <h4 class="card-header">
                 Search for a city
@@ -37,10 +37,11 @@
               
               </div>
           </section>
-          <section class="col-9">
+          <section class="col-8" id="todayweather">
             <div class="container">
               <div class="card">
                 <h1 class="name" id="name"></h1>
+                <h2 class="fecha" id="fecha"></h2>
                 <p class="temp"></p>
                 <p class="wind"></p>
                 <p class="hum"></p>
@@ -48,16 +49,13 @@
               </div>
             </div>
           </section>
-          <div class="row border fivedays">
-            <div class="col-2 day1">Tomorrow</div>
-            <div class="col-2 day2">Day After</div>
-            <div class="col-2 day3">3 days from now</div>
-            <div class="col-2 day4">4 days from now</div>
-            <div class="col-2 day5">5 days from now</div>
-          </div>
+          
+        </div>
+        <div class="row border" id="fivedays">
+          
         </div>
       </main>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <script src="script.js"></script>
 </body>
 </html>

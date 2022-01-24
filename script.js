@@ -51,41 +51,49 @@ function today () {
   })
 }
 function fivedaysweather () {
-  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&appid='+API_KEY)
+  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&units=metric&appid='+API_KEY)
     .then(response => response.json())
   .then(data => {
-  console.log(data['daily'])
+  console.log(data['daily'][0]['wind_speed'])
+  var killme = {
+    temperature: data['daily'][0]['temp'].day,
+    wind: data['daily'][0]['wind_speed'],
+    humidity: data['daily'][0]['humidity']
+  }; 
+  console.log(killme);
   //Loop it or type it in manually
   //Maybe try to make an array or object with the first five elements
   //and only the elements i need.
-          fivedays.innerHTML = `
-         
+
+  
+          fivedays.innerHTML = 
+         `
           <div class="col-2 day1"><h4>Tomorrow</h4>
-          <p>Temperature</p>
-          <p>Wind</p>
-          <p>Humidity</p>
+          <p>Temperature: ` + data['daily'][0]['temp'].day + `</p>
+          <p>Wind: `+ data['daily'][0]['wind_speed']+ ` KM/H</p>
+          <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
         <div class="col-2 day2"><h4>Day After</h4>
-          <p>Temperature</p>
-          <p>Wind</p>
+          <p>Temperature: ` + data['daily'][1]['temp'].day + `</p>
+          <p>Wind: `+ data['daily'][1]['wind_speed']+ ` KM/H</p>
           <p>Humidity</p>
         </div>
         <div class="col-2 day3"><h4>3 days from now</h4>
-          <p>Temperature</p>
-          <p>Wind</p>
-          <p>Humidity</p>
+          <p>Temperature: ` + data['daily'][2]['temp'].day + `</p>
+          <p>Wind: `+ data['daily'][2]['wind_speed']+ ` KM/H</p>
+          <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
         <div class="col-2 day4"><h4>4 days from now</h4>
-          <p>Temperature</p>
-          <p>Wind</p>
-          <p>Humidity</p>
+          <p>Temperature: ` + data['daily'][3]['temp'].day + `</p>
+          <p>Wind: `+ data['daily'][3]['wind_speed']+ ` KM/H</p>
+          <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
         <div class="col-2 day5"><h4>5 days from now</h4>
-          <p>Temperature</p>
-          <p>Wind</p>
-          <p>Humidity</p>
+          <p>Temperature: ` + data['daily'][4]['temp'].day + `</p>
+          <p>Wind: `+ data['daily'][4]['wind_speed']+ ` KM/H</p>
+          <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
-             `
+           `  
   })
   //Ideally this would clear the local storage and fix the need to click submit twice
   //Doesn't work. Maybe call this function some other way? Maybe use session storage?

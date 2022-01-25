@@ -8,8 +8,9 @@ var wind = document.querySelector('.wind');
 var hum = document.querySelector('.hum');
 var fivedays = document.querySelector('#fivedays');
 var fecha = document.querySelector('#fecha');
-var API_KEY = '2db2aad8f9cf5856066bd821773ec276'
-;
+var API_KEY = '2db2aad8f9cf5856066bd821773ec276';
+var latitude;
+var longitude;
 lastsearch();
 
 function lastsearch () {
@@ -21,8 +22,8 @@ function getlatlon () {
   fetch('http://api.openweathermap.org/geo/1.0/direct?q='+inpuut.value+'&limit=5&appid='+API_KEY)
   .then(response => response.json())
   .then(data => {
-    var latitude = data[0]['lat'];
-    var longitude = data[0]['lon'];
+   latitude = data[0]['lat'];
+   longitude = data[0]['lon'];
     console.log(latitude);
     console.log(longitude);
     localStorage.setItem('lat', latitude);
@@ -32,6 +33,8 @@ function getlatlon () {
   })
 }
 function today () {
+  console.log(latitude);
+
   fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&units=metric&appid='+API_KEY)
   .then(response => response.json())
   .then(data => {
@@ -115,7 +118,7 @@ function uvcolorclear() {
   element.classList.remove("low","high","veryhigh", "medium");
 }
 function uvcolor() {
-  if (uvi.innerHTML > 0 && uvi.innerHTML < 2 ) {
+  if (uvi.innerHTML >= 0 && uvi.innerHTML < 2 ) {
     let element = document.getElementById("uvindex");
         element.classList.add("low");
   }
@@ -127,7 +130,7 @@ function uvcolor() {
     let element = document.getElementById("uvindex");
         element.classList.add("high");
   }
-  else {
+  else if (uvi.innerHTML > 10) {
     let element = document.getElementById("uvindex");
         element.classList.add("veryhigh");
    };

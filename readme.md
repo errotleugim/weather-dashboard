@@ -9,4 +9,4 @@ Missing functions:
 -Icons
 
 UI isnt pretty, but i've no more time to modify it.
-![Screenshot](screenshot.jpg?raw=true ":/")
+![Screenshot](/screenshot.jpg?raw=true ":/")

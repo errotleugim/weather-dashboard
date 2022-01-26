@@ -18,6 +18,7 @@ function lastsearch () {
   cityone.innerHTML = localStorage.getItem('City1')
 }
 
+//Function gets latitude and longitude from input.
 async function getlatlon () {
   
   return new Promise( (resolve) => {
@@ -38,10 +39,9 @@ async function getlatlon () {
     })
   })
   
-
+//Takes the lat&lon and uses the One Call API to retrieve the weather info for the day
 }
 function today ( lat, lon) {
-  console.log(lat, lon);
 
   fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&exclude={part}&units=metric&appid='+API_KEY)
   .then(response => response.json())
@@ -65,6 +65,7 @@ function today ( lat, lon) {
    
   })
 }
+//Takes the lat&lon to generate the extended forecast.
 function fivedaysweather (lat, lon) {
   fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+ lon +'&exclude={part}&units=metric&appid='+API_KEY)
     .then(response => response.json())
@@ -78,31 +79,31 @@ function fivedaysweather (lat, lon) {
   console.log(killme);
 
 
-  
+  //Renders extended forecast on the DOM
           fivedays.innerHTML = 
          `
           <div class="col-2 day1"><h4>Tomorrow</h4>
-          <p>Temperature: ` + data['daily'][0]['temp'].day + `</p>
+          <p>Temperature: ` + data['daily'][0]['temp'].day + `C°</p>
           <p>Wind: `+ data['daily'][0]['wind_speed']+ ` KM/H</p>
           <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
         <div class="col-2 day2"><h4>Day After</h4>
-          <p>Temperature: ` + data['daily'][1]['temp'].day + `</p>
+          <p>Temperature: ` + data['daily'][1]['temp'].day + `C°</p>
           <p>Wind: `+ data['daily'][1]['wind_speed']+ ` KM/H</p>
           <p>Humidity</p>
         </div>
         <div class="col-2 day3"><h4>3 days from now</h4>
-          <p>Temperature: ` + data['daily'][2]['temp'].day + `</p>
+          <p>Temperature: ` + data['daily'][2]['temp'].day + `C°</p>
           <p>Wind: `+ data['daily'][2]['wind_speed']+ ` KM/H</p>
           <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
         <div class="col-2 day4"><h4>4 days from now</h4>
-          <p>Temperature: ` + data['daily'][3]['temp'].day + `</p>
+          <p>Temperature: ` + data['daily'][3]['temp'].day + `C°</p>
           <p>Wind: `+ data['daily'][3]['wind_speed']+ ` KM/H</p>
           <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
         <div class="col-2 day5"><h4>5 days from now</h4>
-          <p>Temperature: ` + data['daily'][4]['temp'].day + `</p>
+          <p>Temperature: ` + data['daily'][4]['temp'].day + `C°</p>
           <p>Wind: `+ data['daily'][4]['wind_speed']+ ` KM/H</p>
           <p>Humidity: ` + data['daily'][0]['humidity'] + `% </p>
         </div>
@@ -110,9 +111,9 @@ function fivedaysweather (lat, lon) {
   })
 
 }
-
+//submit button
 button.addEventListener('click', async function(){
-  // uvcolorclear();
+
   let results = await getlatlon(); 
   today (results.latitude, results.longitude);
   
@@ -143,42 +144,3 @@ function uvcolor(uvivalue) {
   
   } ;
 
-
-  // .then(data => {
-  //   var uvivalue = data['current']['uvi']
-  //   var windvalue = data['current']['wind_speed']
-  //   var tempvalue = data['current']['temp']
-  //   
-  //   // var daily0 = {data['daily'][0]['temp']['day']}, {data['daily'][0]['wind_speed']}, {data['daily'][0]['humidity']};
-  //   var daily1 = data['daily'][1]
-  //   var daily2 = data['daily'][2]
-  //   var daily3 = data['daily'][3]
-  //   var daily4 = data['daily'][4]
-  //   wind.innerHTML = "Wind speed: " + windvalue;
-  //   temp.innerHTML = "Temperature: " + tempvalue;
-  //   uvi.innerHTML = "UV Index: "+uvivalue;
-  //   hum.innerHTML = "Humidity: "+humvalue;
-  //   inpuut.value ="";
-//     console.log(data)
-//   })
-
-//   .catch(err => alert("Something might be broken")))
-//   })
-// function showWeatherData (data){
-//   let {temp, humidity , wind_speed} = data['daily'][0-4];
-
-//   fivedays.innerHTML = 
-//   `<div class="weather-item">
-//       <div>Humidity</div>
-//       <div>${temp}%</div>
-//   </div>
-//   <div class="weather-item">
-//       <div>Pressure</div>
-//       <div>${humidity}</div>
-//   </div>
-//   <div class="weather-item">
-//       <div>Wind Speed</div>
-//       <div>${wind_speed}</div>
-//   </div>`
-
-// }

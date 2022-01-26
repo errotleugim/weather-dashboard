@@ -18,24 +18,36 @@ function lastsearch () {
   cityone.innerHTML = localStorage.getItem('City1')
 }
 
-function getlatlon () {
-  fetch('http://api.openweathermap.org/geo/1.0/direct?q='+inpuut.value+'&limit=5&appid='+API_KEY)
-  .then(response => response.json())
-  .then(data => {
-   latitude = data[0]['lat'];
-   longitude = data[0]['lon'];
-    console.log(latitude);
-    console.log(longitude);
-    localStorage.setItem('lat', latitude);
-    localStorage.setItem('lon', longitude);
-    localStorage.setItem('City1', inpuut.value);
+async function getlatlon () {
+  
+  return new Promise( (resolve) => {
+    fetch('http://api.openweathermap.org/geo/1.0/direct?q='+inpuut.value+'&limit=5&appid='+API_KEY)
+    .then(response => response.json())
+    .then(data => {
+      latitude = data[0]['lat'];
+      longitude = data[0]['lon'];
 
+      return resolve({
+        latitude, 
+        longitude,
+        city : inpuut.value
+      })
+
+      // console.log(latitude);
+      // console.log(longitude);
+      // localStorage.setItem('lat', latitude);
+      // localStorage.setItem('lon', longitude);
+      // localStorage.setItem('City1', inpuut.value);
+  
+    })
   })
-}
-function today () {
-  console.log(latitude);
+  
 
-  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&units=metric&appid='+API_KEY)
+}
+function today ( lat, lon) {
+  console.log(lat, lon);
+
+  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&exclude={part}&units=metric&appid='+API_KEY)
   .then(response => response.json())
   .then(data => {
     var uvivalue = data['current']['uvi']
@@ -50,11 +62,15 @@ function today () {
     temp.innerHTML = "Temperature: " + tempvalue + " C°";
     uvi.innerHTML = "UV Index: "+uvivalue;
     hum.innerHTML = "Humidity: "+humvalue + "%";
+    
+
+  uvi.classList.value = ''
+  uvi.classList.value = uvcolor(uvivalue);
    
   })
 }
-function fivedaysweather () {
-  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+localStorage.getItem('lat')+'&lon='+localStorage.getItem('lon')+'&exclude={part}&units=metric&appid='+API_KEY)
+function fivedaysweather (lat, lon) {
+  fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+ lon +'&exclude={part}&units=metric&appid='+API_KEY)
     .then(response => response.json())
   .then(data => {
   console.log(data['daily'][0]['wind_speed'])
@@ -105,34 +121,31 @@ function fivedaysweather () {
   // localStorage.removeItem('lon');
 }
 
-button.addEventListener('click', function(){
-  uvcolorclear();
-  getlatlon(); 
-  today ();
+button.addEventListener('click', async function(){
+  // uvcolorclear();
+  let results = await getlatlon(); 
+  today (results.latitude, results.longitude);
+  
+  fivedaysweather(results.latitude, results.longitude);
   uvcolor();
-  fivedaysweather();
 })
 
 function uvcolorclear() {
   let element = document.getElementById("uvindex");
   element.classList.remove("low","high","veryhigh", "medium");
 }
-function uvcolor() {
-  if (uvi.innerHTML >= 0 && uvi.innerHTML < 2 ) {
-    let element = document.getElementById("uvindex");
-        element.classList.add("low");
+function uvcolor(uvivalue) {
+  if ( uvivalue >= 0 && uvivalue < 2 ) {
+    return "low"
   }
-  else if (uvi.innerHTML > 2 && uvi.innerHTML < 5) {
-    let element = document.getElementById("uvindex");
-        element.classList.add("medium");
+  else if ( uvivalue > 2 && uvivalue < 5 ) {
+    return "medium"
   }
-  else if (uvi.innerHTML < 7 && uvi.innerHTML > 10) {
-    let element = document.getElementById("uvindex");
-        element.classList.add("high");
-  }
-  else if (uvi.innerHTML > 10) {
-    let element = document.getElementById("uvindex");
-        element.classList.add("veryhigh");
+  else if ( uvivalue > 5 && uvivalue < 7 ) {
+    return "high"
+    }
+  else if (uvivalue > 10) {
+  return "veryhigh";
    };
   
   } ;

@@ -33,11 +33,7 @@ async function getlatlon () {
         city : inpuut.value
       })
 
-      // console.log(latitude);
-      // console.log(longitude);
-      // localStorage.setItem('lat', latitude);
-      // localStorage.setItem('lon', longitude);
-      // localStorage.setItem('City1', inpuut.value);
+  
   
     })
   })
@@ -80,9 +76,7 @@ function fivedaysweather (lat, lon) {
     humidity: data['daily'][0]['humidity']
   }; 
   console.log(killme);
-  //Loop it or type it in manually
-  //Maybe try to make an array or object with the first five elements
-  //and only the elements i need.
+
 
   
           fivedays.innerHTML = 
@@ -114,11 +108,7 @@ function fivedaysweather (lat, lon) {
         </div>
            `  
   })
-  //Ideally this would clear the local storage and fix the need to click submit twice
-  //Doesn't work. Maybe call this function some other way? Maybe use session storage?
-  //Rather, find a way to pass the coordinates without using storage.
-  // localStorage.removeItem('lat');
-  // localStorage.removeItem('lon');
+
 }
 
 button.addEventListener('click', async function(){
@@ -130,10 +120,13 @@ button.addEventListener('click', async function(){
   uvcolor();
 })
 
+//Clears UV Index background before rendering the new one
 function uvcolorclear() {
   let element = document.getElementById("uvindex");
   element.classList.remove("low","high","veryhigh", "medium");
 }
+
+//This function gives the UV Index div a background color to depict its danger level
 function uvcolor(uvivalue) {
   if ( uvivalue >= 0 && uvivalue < 2 ) {
     return "low"

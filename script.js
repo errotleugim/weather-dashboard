@@ -22,7 +22,7 @@ function lastsearch () {
 async function getlatlon () {
   
   return new Promise( (resolve) => {
-    fetch('http://api.openweathermap.org/geo/1.0/direct?q='+inpuut.value+'&limit=5&appid='+API_KEY)
+    fetch('https://api.openweathermap.org/geo/1.0/direct?q='+inpuut.value+'&limit=5&appid='+API_KEY)
     .then(response => response.json())
     .then(data => {
       latitude = data[0]['lat'];

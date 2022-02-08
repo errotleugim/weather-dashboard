@@ -7,6 +7,6 @@ Functions that work:
 Missing functions:
 -Last cities searched
 -Icons
-
+https://errotleugim.github.io/weather-dashboard/
 UI isnt pretty, but i've no more time to modify it.
 ![Screenshot](https://github.com/errotleugim/weather-dashboard/blob/main/screenshot.png?raw=true?raw=true ":/")
